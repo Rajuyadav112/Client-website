@@ -54,6 +54,75 @@ body {
     color: var(--text-main);
     line-height: 1.7;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Cursor handled by body/elements below */
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+    border: 2px solid var(--bg-secondary);
+    /* Padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* --- Custom Cursor --- */
+* {
+    cursor: none !important;
+    /* Force hide default cursor on EVERYTHING */
+}
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 2147483647;
+    /* Maximum Z-Index to stay on top of everything */
+    pointer-events: none;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid var(--primary);
+    /* Slightly thicker for better visibility */
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    /* Smooth transition */
+}
+
+/* Cursor Hover State */
+.cursor-dot.hovered {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: var(--primary-dark);
+}
+
+.cursor-outline.hovered {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: rgba(14, 76, 95, 0.1);
+    border-color: transparent;
 }
 
 h1,
@@ -73,9 +142,24 @@ h1.display-title {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1.5rem;
-    animation: fadeInUp 1s ease forwards;
+    /* Animation handled by JS splitting */
+    opacity: 1;
     letter-spacing: -1px;
     text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: revealChar 0.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+
+@keyframes revealChar {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -358,7 +442,8 @@ footer {
     background: var(--white);
     color: var(--text-main);
     padding: 6rem 0 2rem;
-    margin-top: 0;
+    margin-top: auto;
+    /* Push footer to bottom */
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     position: relative;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.02);
@@ -439,6 +524,10 @@ footer::before {
 
 .scroller[data-speed="fast"] .scroller__inner {
     animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] .scroller__inner {
+    animation-duration: 60s;
 }
 
 .industry-tag {
@@ -600,6 +689,62 @@ footer::before {
     left: 50%;
     margin-left: -1px;
     z-index: 1;
+    background-color: rgba(14, 76, 95, 0.2);
+    /* Make base line lighter */
+}
+
+/* Life Carousel Navigation */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.carousel-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+/* Animated Fill Line */
+.timeline-fill {
+    position: absolute;
+    width: 2px;
+    background-color: var(--primary-dark);
+    /* Darker fill color */
+    top: 0;
+    left: 50%;
+    margin-left: -1px;
+    z-index: 2;
+    height: 0;
+    /* Starts empty */
+    transition: height 0.1s linear;
+    /* Smooth fill */
+    box-shadow: 0 0 10px var(--primary);
+    /* Glow effect */
 }
 
 .timeline-item {
@@ -1525,4 +1670,69 @@ footer .footer-brand img {
         height: 50px;
         /* Responsive adjustment */
     }
+}
+
+/* --- Digital Marketing Services Slider --- */
+
+
+.service-slide {
+    min-width: 300px;
+    max-width: 300px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.service-card-image {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.service-slide:hover .service-card-image {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.service-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Cover full card */
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    /* White/Light overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Center logo vertically */
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.service-slide:hover .service-overlay {
+    opacity: 1;
+}
+
+.overlay-logo {
+    height: 60px;
+    /* Slightly larger */
+    filter: none;
+    /* Show original logo colors */
+    /* Alternatively for pure black: filter: brightness(0); */
+}
+
+.service-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-top: 1rem;
 }

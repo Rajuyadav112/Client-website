@@ -98,6 +98,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- FAQ Accordion ---
+
+    // --- Timeline Scroll Animation ---
+    const timeline = document.querySelector('.timeline');
+    const timelineFill = document.querySelector('.timeline-fill');
+
+    if (timeline && timelineFill) {
+        window.addEventListener('scroll', () => {
+            const timelineRect = timeline.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const startOffset = windowHeight * 0.8; // Start filling when top reaches 80% viewport
+
+            // Calculate how much of the timeline has been scrolled past
+            let scrollDistance = windowHeight - timelineRect.top - (windowHeight - startOffset);
+            let timelineHeight = timeline.offsetHeight;
+
+            // Clamp values between 0 and total height
+            let fillHeight = Math.max(0, Math.min(scrollDistance, timelineHeight));
+
+            // Convert to percentage for smoother response
+            let fillPercentage = (fillHeight / timelineHeight) * 100;
+
+            timelineFill.style.height = `${fillPercentage}%`;
+        });
+    }
+
+    // --- Life at Click & Connect Carousel (Infinite Loop) ---
+    const lifeCarousel = document.querySelector('.life-carousel');
+    const prevBtn = document.querySelector('.carousel-btn.prev-btn');
+    const nextBtn = document.querySelector('.carousel-btn.next-btn');
+
+    if (lifeCarousel && prevBtn && nextBtn) {
+        // Clone for infinite illusion
+        const items = Array.from(lifeCarousel.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            lifeCarousel.appendChild(clone);
+        });
+
+        const scrollAmount = 350; // Card width + gap
+
+        nextBtn.addEventListener('click', () => {
+            // Infinite Scroll Logic: If near end, jump to middle
+            if (lifeCarousel.scrollLeft + lifeCarousel.clientWidth >= lifeCarousel.scrollWidth - 10) {
+                lifeCarousel.style.scrollBehavior = 'auto'; // Disable smooth
+                lifeCarousel.scrollLeft = 0; // Jump to start
+                lifeCarousel.style.scrollBehavior = 'smooth'; // Re-enable
+            }
+            lifeCarousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            // Infinite Scroll Logic: If at start, jump to middle/end
+            if (lifeCarousel.scrollLeft <= 0) {
+                lifeCarousel.style.scrollBehavior = 'auto';
+                lifeCarousel.scrollLeft = lifeCarousel.scrollWidth / 2; // Jump to middle
+                lifeCarousel.style.scrollBehavior = 'smooth';
+            }
+            lifeCarousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+    }
+
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
@@ -165,4 +226,46 @@ document.addEventListener('DOMContentLoaded', () => {
             if (section) progressObserver.observe(section);
         }
     }
+
+
+
+
+
+    // --- Magnetic Buttons ---
+    const magneticBtns = document.querySelectorAll('.btn-primary, .carousel-btn');
+
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const position = btn.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0px, 0px)';
+        });
+    });
+
+    // --- Hero Text Reveal Animation ---
+    const heroTitles = document.querySelectorAll('.hero .display-title');
+    heroTitles.forEach(title => {
+        const text = title.textContent.trim();
+        // Clear content
+        title.innerHTML = '';
+
+        // Split by words first to respect breaks if needed, but here we just want chars
+        // A simple char split:
+        const chars = text.split('');
+
+        chars.forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char; // Preserve spaces
+            span.classList.add('char');
+            span.style.animationDelay = `${index * 0.05}s`;
+            title.appendChild(span);
+        });
+    });
+
 });

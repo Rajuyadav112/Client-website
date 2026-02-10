@@ -11,6 +11,8 @@
 </head>
 
 <body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <nav>
         <a href="index.html" class="logo">
@@ -115,6 +117,7 @@
             </h2>
 
             <div class="timeline">
+                <div class="timeline-fill"></div>
                 <!-- Step 1 -->
                 <div class="timeline-item reveal">
                     <div class="timeline-content">
@@ -226,20 +229,37 @@
             <h2 class="display-title" style="font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">
                 Life at Click & Connect</h2>
 
-            <div class="card-grid"
-                style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-bottom: 5rem;">
-                <div class="reveal"
-                    style="height: 250px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;">
+            <div class="carousel-container" style="position: relative; margin-bottom: 5rem;">
+                <button class="carousel-btn prev-btn" aria-label="Previous">
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                </button>
+
+                <div class="life-carousel"
+                    style="display: flex; gap: 2rem; overflow-x: auto; scroll-behavior: smooth; padding: 1rem 0; scrollbar-width: none;">
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
+                    <!-- Added more images for scrolling effect -->
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
+                    <div class="life-card"
+                        style="min-width: 300px; height: 350px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover; flex-shrink: 0; box-shadow: var(--shadow);">
+                    </div>
                 </div>
-                <div class="reveal"
-                    style="height: 250px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;">
-                </div>
-                <div class="reveal"
-                    style="height: 250px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;">
-                </div>
-                <div class="reveal"
-                    style="height: 250px; border-radius: 15px; overflow: hidden; background: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;">
-                </div>
+
+                <button class="carousel-btn next-btn" aria-label="Next">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </button>
             </div>
 
             <div style="text-align: center; margin-bottom: 4rem;">
@@ -360,6 +380,7 @@
         </div>
     </footer>
 
+    <script src="cursor.js"></script>
     <script src="script.js"></script>
 </body>
 
