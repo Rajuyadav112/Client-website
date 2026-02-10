@@ -96,4 +96,73 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- FAQ Accordion ---
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            // Close other open items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('expanded')) {
+                    otherItem.classList.remove('expanded');
+                }
+            });
+            // Toggle current item
+            item.classList.toggle('expanded');
+        });
+    });
+
+    // --- Progress Bar Animation with Re-trigger ---
+    const progressSection = document.querySelector('.section[style*="background: var(--primary-dark)"]'); // Targeting the specific section
+    const progressBars = document.querySelectorAll('.progress-bar');
+    const progressValues = document.querySelectorAll('.progress-value');
+
+    if (progressBars.length > 0) {
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate IN
+                    progressBars.forEach((bar) => {
+                        const progress = bar.getAttribute('data-progress');
+                        bar.style.width = progress + '%';
+                    });
+
+                    progressValues.forEach((value) => {
+                        const targetValue = parseInt(value.getAttribute('data-value'));
+                        let currentValue = 0;
+                        // Slower increment: targetValue / (3000ms / 20ms) = targetValue / 150
+                        const increment = targetValue / 150;
+
+                        // Clear any existing interval to prevent overlapping
+                        if (value.interval) clearInterval(value.interval);
+
+                        value.interval = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= targetValue) {
+                                currentValue = targetValue;
+                                clearInterval(value.interval);
+                            }
+                            value.textContent = Math.round(currentValue) + '%';
+                        }, 20);
+                    });
+                } else {
+                    // Reset OUT (so it can animate again)
+                    progressBars.forEach((bar) => {
+                        bar.style.width = '0%';
+                    });
+                    progressValues.forEach((value) => {
+                        value.textContent = '0%';
+                        if (value.interval) clearInterval(value.interval);
+                    });
+                }
+            });
+        }, { threshold: 0.3 }); // Trigger when 30% of section is visible
+
+        if (progressBars[0]) {
+            // Observe the parent section of the first bar to trigger all at once
+            const section = progressBars[0].closest('section');
+            if (section) progressObserver.observe(section);
+        }
+    }
 });

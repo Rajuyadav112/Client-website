@@ -419,6 +419,334 @@ footer::before {
     padding-left: 5px;
 }
 
+/* --- Scroller Animation --- */
+.scroller {
+    max-width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    margin-bottom: 3rem;
+}
+
+.scroller__inner {
+    padding-block: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+}
+
+.scroller[data-speed="fast"] .scroller__inner {
+    animation-duration: 20s;
+}
+
+.industry-tag {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    background: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.industry-tag ion-icon {
+    color: var(--primary);
+}
+
+@keyframes scroll {
+    to {
+        transform: translate(calc(-50% - 1rem));
+    }
+}
+
+
+/* --- FAQ Section --- */
+.faq-item {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: var(--transition);
+    /* Removed max-height on container to prevent disappearing issues */
+}
+
+.faq-question {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    background: white;
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+    color: var(--primary);
+}
+
+.faq-answer {
+    padding: 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    opacity: 0;
+}
+
+.faq-item.expanded .faq-answer {
+    max-height: 200px;
+    /* Large enough for content */
+    padding-bottom: 1.5rem;
+    opacity: 1;
+}
+
+.faq-item.expanded {
+    box-shadow: var(--shadow-teal);
+    border: 1px solid var(--primary);
+}
+
+.faq-icon {
+    font-size: 1.2rem;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.faq-item.expanded .faq-icon {
+    transform: rotate(180deg);
+}
+
+/* --- Blog Preview --- */
+.blog-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-premium);
+}
+
+.blog-img {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.blog-date {
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.blog-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    color: var(--text-main);
+}
+
+.blog-link {
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.blog-link:hover {
+    color: var(--primary);
+    gap: 0.8rem;
+}
+
+/* --- Timeline Styles --- */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: var(--primary);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+    z-index: 1;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+/* Left side */
+.timeline-item:nth-child(odd) {
+    left: 0;
+}
+
+/* Right side */
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+
+.timeline-content {
+    padding: 2rem;
+    background-color: white;
+    position: relative;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-premium);
+}
+
+.timeline::before {
+    display: none;
+}
+
+/* Circles on timeline */
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background-color: white;
+    border: 4px solid var(--primary);
+    top: 50%;
+    border-radius: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+}
+
+.timeline-item:nth-child(even)::after {
+    left: -10px;
+}
+
+.timeline-img {
+    height: 250px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-date {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--primary-dark);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Responsive Timeline */
+@media screen and (max-width: 768px) {
+    .timeline::after {
+        left: 20px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 25px;
+    }
+
+    .timeline-item::after {
+        left: 10px;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 0%;
+    }
+}
+
+/* --- Team Styles --- */
+.team-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-premium);
+}
+
+.team-img {
+    height: 350px;
+    width: 100%;
+    background-size: cover;
+    background-position: top center;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-img {
+    transform: scale(1.05);
+}
+
+.team-info {
+    padding: 1.5rem;
+    text-align: center;
+    background: white;
+    position: relative;
+    z-index: 1;
+}
+
+.team-info h3 {
+    margin-bottom: 0.3rem;
+    font-size: 1.25rem;
+    color: var(--text-main);
+}
+
+.team-info span {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
 .footernav .nav-links a:hover,
 nav .nav-links a.active {
     color: var(--primary);
@@ -750,6 +1078,15 @@ nav .nav-links a.active {
         font-size: 2rem;
     }
 
+    /* Ensure industry cards stack properly */
+    .industry-card {
+        padding: 1.5rem;
+    }
+
+    .industry-list {
+        margin-left: 0;
+    }
+
     .stats-grid {
         grid-template-columns: 1fr;
     }
@@ -846,26 +1183,44 @@ nav .nav-links a.active {
 }
 
 /* --- Page Specific --- */
+/* --- Page Specific --- */
 .page-header {
-    background: var(--dark);
+    background-color: var(--dark);
+    background-size: cover;
+    background-position: center;
+    /* background-attachment: fixed; Removed to fix missing images */
     color: white;
-    padding: 10rem 0 5rem;
+    padding: 12rem 0 8rem;
+    /* Increased padding for larger banner */
+    min-height: 50vh;
+    /* Minimum height ensures it's big enough */
+    display: flex;
+    align-items: center;
     position: relative;
     overflow: hidden;
 }
 
-.page-header::after {
+/* Page Header Backgrounds */
+/* Page Header Backgrounds - Defined inline for better compatibility */
+
+.page-header::before {
     content: '';
     position: absolute;
-    width: 40vw;
-    height: 40vw;
-    background: var(--primary);
-    opacity: 0.1;
-    filter: blur(100px);
-    border-radius: 50%;
-    top: -50%;
-    right: -10%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Dark overlay for readability */
+    z-index: 1;
 }
+
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Removed the abstract circle after-element as it conflicts with the image */
 
 /* Glassmorphism Classes */
 .glass-card {
