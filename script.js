@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // Elements to reveal on scroll
-    const reveals = document.querySelectorAll('.reveal');
+    const reveals = document.querySelectorAll('.reveal, .scroll-reveal');
     const heroContent = document.querySelector('.hero-content');
 
     // Intersection Observer for scroll animations
@@ -159,19 +159,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            // Close other open items
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item && otherItem.classList.contains('expanded')) {
-                    otherItem.classList.remove('expanded');
-                }
+    // --- FAQ Accordion (New) ---
+    const accordionItems = document.querySelectorAll('.faq-accordion-item');
+
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.faq-accordion-header');
+        if (header) {
+            header.addEventListener('click', () => {
+                // Close other open items
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Toggle current item
+                item.classList.toggle('active');
             });
-            // Toggle current item
-            item.classList.toggle('expanded');
-        });
+        }
     });
 
     // --- Progress Bar Animation with Re-trigger ---
@@ -248,24 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Hero Text Reveal Animation ---
-    const heroTitles = document.querySelectorAll('.hero .display-title');
-    heroTitles.forEach(title => {
-        const text = title.textContent.trim();
-        // Clear content
-        title.innerHTML = '';
-
-        // Split by words first to respect breaks if needed, but here we just want chars
-        // A simple char split:
-        const chars = text.split('');
-
-        chars.forEach((char, index) => {
-            const span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char; // Preserve spaces
-            span.classList.add('char');
-            span.style.animationDelay = `${index * 0.05}s`;
-            title.appendChild(span);
-        });
-    });
+    // --- Hero Text Reveal Animation Removed for Clarity ---
+    // The previous character-by-character split was causing persistent blur issues on some renderers.
+    // Reverting to CSS-only fade-in for reliability.
 
 });

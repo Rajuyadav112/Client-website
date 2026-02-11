@@ -2,27 +2,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
 
-    // Hide default cursor
-    // document.body.style.cursor = 'none'; // Done in CSS
+    if (!cursorDot || !cursorOutline) return;
 
-    // Mouse Move Event
+    // Position variables
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+
+    // Mouse Move Event - Update target position
     window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
 
         // Dot follows instantly
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
+        cursorDot.style.left = `${mouseX}px`;
+        cursorDot.style.top = `${mouseY}px`;
 
-        // Outline follows with lag (using animate for smoothness)
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
+        // Ensure visibility
+        cursorDot.style.display = 'block';
+        cursorOutline.style.display = 'block';
     });
 
+    // Smooth Animation Loop for Outline
+    const animateOutline = () => {
+        // Linear Interpolation (Lerp) for smooth delay
+        // Move 10% of the distance each frame
+        outlineX += (mouseX - outlineX) * 0.1;
+        outlineY += (mouseY - outlineY) * 0.1;
+
+        cursorOutline.style.left = `${outlineX}px`;
+        cursorOutline.style.top = `${outlineY}px`;
+
+        requestAnimationFrame(animateOutline);
+    };
+
+    // Start Animation Loop
+    animateOutline();
+
     // Hover Effects
-    const links = document.querySelectorAll('a, button, .btn-primary, .service-card, .faq-question, .carousel-btn');
+    const links = document.querySelectorAll('a, button, .btn-primary, .service-card, .faq-question, .carousel-btn, .strict-card');
 
     links.forEach(link => {
         link.addEventListener('mouseenter', () => {
